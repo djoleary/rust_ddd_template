@@ -1,0 +1,87 @@
+# https://taskfile.dev
+
+version: '3'
+
+tasks:
+
+  default:
+    desc: Prints this message
+    cmds:
+      - cmd: task --list-all
+
+  docs:
+    desc: Builds documentation using rustdoc
+    preconditions:
+      - command -v rustdoc
+    cmds:
+      - cmd: cargo doc --no-deps --document-private-items {{.CLI_ARGS}}
+    silent: true
+
+  docs:open:
+    desc: Builds and opens documentation using rustdoc
+    preconditions:
+      - command -v rustdoc
+    cmds:
+      - cmd: cargo doc --no-deps --document-private-items --open {{.CLI_ARGS}}
+    silent: true
+
+  test:
+    desc: Runs tests
+    ignore_error: true
+    env:
+      OUNIT_CI: true
+    preconditions:
+      - command -v cargo
+    deps:
+      - task: build
+    cmds:
+      - cmd: cargo test {{.CLI_ARGS}}
+
+  test:watch:
+    desc: Continuously runs tests
+    ignore_error: true
+    interactive: true
+    preconditions:
+      - command -v cargo
+      - command -v bacon
+    cmds:
+      - cmd: bacon nextest {{.CLI_ARGS}}
+
+  lint:
+    desc: Runs linters
+    preconditions:
+      - command -v cargo
+      - command -v rustfmt
+    cmds:
+      - cmd: cargo fmt --all -- --check
+      - cmd: cargo clippy --all-targets --all-features -- -D warnings
+
+  lint:watch:
+    desc: Continuously lints the project
+    ignore_error: true
+    interactive: true
+    preconditions:
+      - command -v bacon
+    cmds:
+      - cmd: bacon pedantic {{.CLI_ARGS}}
+
+  build:
+    desc: Builds the project
+    preconditions:
+      - command -v cargo
+    cmds:
+      - cmd: cargo build {{.CLI_ARGS}}
+
+  build:release:
+    desc: Builds a release version the project
+    preconditions:
+      - command -v cargo
+    cmds:
+      - cmd: cargo build --release {{.CLI_ARGS}}
+
+  run:
+    desc: Runs the project
+    preconditions:
+      - command -v cargo
+    cmds:
+      - cmd: cargo run {{.CLI_ARGS}}
