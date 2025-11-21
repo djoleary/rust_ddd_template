@@ -85,3 +85,11 @@ tasks:
       - command -v cargo
     cmds:
       - cmd: cargo run {{.CLI_ARGS}}
+
+  repl:
+    desc: Opens a REPL
+    interactive: true
+    preconditions:
+      - command -v evcxr
+    cmds:
+      - cmd: evcxr --edit-mode vi {{.CLI_ARGS}}
