@@ -93,3 +93,7 @@ tasks:
       - command -v irust
     cmds:
       - cmd: irust {{.CLI_ARGS}}
+
+  git:hooks:
+    desc: sets up the githooks for the project
+    cmd: git config core.hooksPath .githooks
