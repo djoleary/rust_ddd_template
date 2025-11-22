@@ -19,11 +19,12 @@
             rust-analyzer # language server
             rustfmt # formatter
             clippy # linter
+            lldb_21 # debugger
 
             bacon # linter and test runner
             cargo-nextest # test runner used by bacon
 
-            evcxr # REPL
+            irust # REPL
           ];
           sysTools = with pkgs; [
             go-task

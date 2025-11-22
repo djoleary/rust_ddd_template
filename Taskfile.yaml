@@ -90,6 +90,6 @@ tasks:
     desc: Opens a REPL
     interactive: true
     preconditions:
-      - command -v evcxr
+      - command -v irust
     cmds:
-      - cmd: evcxr --edit-mode vi {{.CLI_ARGS}}
+      - cmd: irust {{.CLI_ARGS}}
